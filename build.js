@@ -86,6 +86,7 @@ function copyRecursive(src, dest) {
 function sharedHead({ title, desc, canonical, ogImage = '/assets/og-default.jpg', schema = null }) {
   return `
   <meta charset="UTF-8" />
+  <meta name="google" content="notranslate" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}" />
@@ -271,7 +272,7 @@ function buildEntryPage(item, allData) {
     ? `<div class="tags-wrap">${(item.tags||[]).map(t=>`<a href="/tag/${esc(t)}/" class="tag">#${esc(t)}</a>`).join('')}</div>` : '';
 
   return `<!DOCTYPE html>
-<html lang="ms" dir="ltr">
+<html lang="ms" dir="ltr" translate="no">
 <head>${sharedHead({ title, desc, canonical: canon, schema })}</head>
 <body>
   ${NAV}
@@ -404,7 +405,7 @@ function buildListingPage(type, items) {
   };
 
   return `<!DOCTYPE html>
-<html lang="ms" dir="ltr">
+<html lang="ms" dir="ltr" translate="no">
 <head>${sharedHead({ title, desc, canonical: canon, schema })}</head>
 <body>
   ${NAV}
@@ -461,7 +462,7 @@ function buildCategoryPage(cat, items) {
   };
 
   return `<!DOCTYPE html>
-<html lang="ms" dir="ltr">
+<html lang="ms" dir="ltr" translate="no">
 <head>${sharedHead({ title, desc, canonical: canon, schema })}</head>
 <body>
   ${NAV}
