@@ -1,10 +1,9 @@
 # ZikirHarian — Cloudflare Pages _redirects
-# Place this file in the root of your dist/ output folder
 
-# Ensure trailing slash consistency
+# Trailing slash consistency
 /zikir          /zikir/         301
 /doa            /doa/           301
 /kategori       /kategori/      301
-
-# Catch-all: serve index.html for any unmatched path (handles deep links gracefully)
-/*              /index.html     200
+/tentang        /tentang/       301
+/privasi        /privasi/       301
+/syarat         /syarat/        301
