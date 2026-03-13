@@ -16,7 +16,6 @@
   <!-- ═══ HREFLANG ═══ -->
   <link rel="alternate" hreflang="ms" href="https://zikirharian.com/" />
   <link rel="alternate" hreflang="id" href="https://zikirharian.com/?lang=id" />
-  <link rel="alternate" hreflang="en" href="https://zikirharian.com/?lang=en" />
   <link rel="alternate" hreflang="x-default" href="https://zikirharian.com/" />
 
   <!-- ═══ OPEN GRAPH ═══ -->
@@ -31,7 +30,6 @@
   <meta property="og:image:alt" content="ZikirHarian — Koleksi Zikir &amp; Doa Harian Muslim" />
   <meta property="og:locale" content="ms_MY" />
   <meta property="og:locale:alternate" content="id_ID" />
-  <meta property="og:locale:alternate" content="en_US" />
 
   <!-- ═══ TWITTER CARD ═══ -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -51,7 +49,7 @@
         "name": "ZikirHarian",
         "description": "Koleksi Zikir & Doa Harian Muslim Terbaik",
         "publisher": { "@id": "https://zikirharian.com/#organization" },
-        "inLanguage": ["ms", "id", "en"],
+        "inLanguage": ["ms", "id"],
         "potentialAction": {
           "@type": "SearchAction",
           "target": { "@type": "EntryPoint", "urlTemplate": "https://zikirharian.com/cari/?q={search_term_string}" },
@@ -734,7 +732,7 @@
         <div class="lang-toggle" role="group" aria-label="Pilih bahasa">
           <button class="lang-btn active" data-lang="my" aria-pressed="true">MY</button>
           <button class="lang-btn" data-lang="id" aria-pressed="false">ID</button>
-          <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+          
         </div>
         <button class="theme-btn" id="themeToggle" aria-label="Tukar tema gelap/cerah" title="Tukar tema">☀️</button>
         <button class="hamburger" id="menuBtn" aria-label="Buka menu" aria-expanded="false">
@@ -989,7 +987,6 @@
   function detectLang() {
     const nav = (navigator.language || 'ms').split('-')[0].toLowerCase();
     if (nav === 'id') return 'id';
-    if (nav === 'en') return 'en';
     return 'my';
   }
 
@@ -1060,8 +1057,7 @@
   // ── Render ──
   function getName(item) {
     if (LANG === 'id' && item.name_id) return item.name_id;
-    if (LANG === 'en' && item.name_en) return item.name_en;
-    return item.name_my || item.name_id || item.name_en || '';
+    return item.name_my || item.name_id || '';
   }
 
   function renderAll() {
@@ -1076,12 +1072,12 @@
     document.getElementById('featuredArabic').textContent = featured.arabic || '';
     document.getElementById('featuredRumi').textContent = featured.rumi || '';
     document.getElementById('featuredTrans').textContent =
-      (LANG === 'id' ? featured.translation_id : LANG === 'en' ? featured.translation_en : featured.translation_my) || '';
-    const type = LANG === 'en' ? 'times' : 'kali';
+      (LANG === 'id' ? featured.translation_id : featured.translation_my) || '';
+    const type = 'kali';
     document.getElementById('featuredCount').textContent = featured.bilangan ? `× ${featured.bilangan} ${type}` : '';
     document.getElementById('heroTitle').textContent = getName(featured);
     document.getElementById('heroDesc').textContent =
-      (LANG === 'id' ? featured.fadhilat_id : LANG === 'en' ? featured.fadhilat_en : featured.fadhilat_my)?.slice(0, 140) + '…' || '';
+      (LANG === 'id' ? featured.fadhilat_id : featured.fadhilat_my)?.slice(0, 140) + '…' || '';
     document.getElementById('heroCta').href = `/${featured.type}/${featured.slug}/`;
   }
 
@@ -1091,9 +1087,9 @@
     const catOrder = ['pagi','petang','selepas-solat','tidur','doa-harian','situasi','asmaul-husna','peristiwa'];
     const html = catOrder.map(cat => {
       const m = CAT_META[cat] || { icon:'🌿', label_my: cat };
-      const label = LANG === 'id' ? m.label_id : LANG === 'en' ? m.label_en : m.label_my;
+      const label = LANG === 'id' ? m.label_id : m.label_my;
       const count = counts[cat] || 0;
-      const countLabel = LANG === 'en' ? `${count} entries` : `${count} amalan`;
+      const countLabel = `${count} amalan`;
       return `<a href="/kategori/${cat}/" class="cat-card" aria-label="${label} — ${countLabel}">
         <div class="cat-icon" aria-hidden="true">${m.icon}</div>
         <div class="cat-info">
@@ -1109,10 +1105,10 @@
     const recent = [...DATA]
       .sort((a,b) => new Date(b.publishedAt) - new Date(a.publishedAt))
       .slice(0, 8);
-    const typeLabel = { my: { zikir:'Zikir', doa:'Doa' }, id: { zikir:'Zikir', doa:'Doa' }, en: { zikir:'Dhikr', doa:'Dua' } };
+    const typeLabel = { my: { zikir:'Zikir', doa:'Doa' }, id: { zikir:'Zikir', doa:'Doa' } };
     const catLabel = cat => {
       const m = CAT_META[cat];
-      return m ? (LANG === 'id' ? m.label_id : LANG === 'en' ? m.label_en : m.label_my) : cat;
+      return m ? (LANG === 'id' ? m.label_id : m.label_my) : cat;
     };
     const html = recent.map(item => {
       const name = getName(item);
