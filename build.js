@@ -16,7 +16,7 @@
  * Language strategy: Single file, all 3 languages baked in
  *  MY (default): zikirharian.com/zikir/[slug]/
  *  ID:           zikirharian.com/zikir/[slug]/?lang=id
- *  EN:           zikirharian.com/zikir/[slug]/?lang=en
+
  *  hreflang tags on every page for Google
  */
 
@@ -67,7 +67,7 @@ function esc(str = '') {
 
 function catLabel(cat, lang = 'my') {
   const m = CAT_META[cat];
-  return m ? (m[lang] || m.my) : cat;
+  return m ? (lang === 'id' ? m.id : m.my) : cat;
 }
 
 function copyRecursive(src, dest) {
@@ -94,7 +94,6 @@ function sharedHead({ title, desc, canonical, ogImage = '/assets/og-default.jpg'
   <link rel="canonical" href="${SITE_URL}${canonical}" />
   <link rel="alternate" hreflang="ms"        href="${SITE_URL}${canonical}" />
   <link rel="alternate" hreflang="id"        href="${SITE_URL}${canonical}?lang=id" />
-  <link rel="alternate" hreflang="en"        href="${SITE_URL}${canonical}?lang=en" />
   <link rel="alternate" hreflang="x-default" href="${SITE_URL}${canonical}" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="${SITE_NAME}" />
@@ -106,7 +105,6 @@ function sharedHead({ title, desc, canonical, ogImage = '/assets/og-default.jpg'
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="ms_MY" />
   <meta property="og:locale:alternate" content="id_ID" />
-  <meta property="og:locale:alternate" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${esc(title)}" />
   <meta name="twitter:description" content="${esc(desc)}" />
@@ -137,7 +135,7 @@ const NAV = `
         <div class="lang-toggle" role="group" aria-label="Pilih bahasa">
           <button class="lang-btn active" data-lang="my" aria-pressed="true">MY</button>
           <button class="lang-btn" data-lang="id" aria-pressed="false">ID</button>
-          <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+
         </div>
         <button class="theme-btn" id="themeToggle" aria-label="Tukar tema">☀️</button>
         <button class="hamburger" id="menuBtn" aria-label="Buka menu" aria-expanded="false">
@@ -216,7 +214,7 @@ function buildEntryPage(item, allData) {
         "headline": item.name_my,
         "description": desc,
         "url": `${SITE_URL}${canon}`,
-        "inLanguage": ["ms","id","en"],
+        "inLanguage": ["ms","id"],
         "author": { "@type": "Organization", "name": "Zikir Harian" },
         "publisher": {
           "@type": "Organization", "name": "Zikir Harian",
