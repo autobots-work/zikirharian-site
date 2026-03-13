@@ -1,0 +1,6 @@
+# Build output — Cloudflare generates this, don't commit it
+dist/
+
+# System files
+.DS_Store
+Thumbs.db
