@@ -30,7 +30,7 @@
   function detectLang() {
     const nav = (navigator.language || 'ms').split('-')[0].toLowerCase();
     if (nav === 'id') return 'id';
-    if (nav === 'en') return 'en';
+    
     return 'my';
   }
 
