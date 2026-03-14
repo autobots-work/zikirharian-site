@@ -561,7 +561,7 @@ async function main() {
   mkdir(DIST);
 
   // Copy static files
-  ['index.html', '_redirects', 'robots.txt'].forEach(f => {
+  ['index.html', '_redirects', '_headers', 'robots.txt'].forEach(f => {
     if (fs.existsSync(path.join(SRC, f))) copyRecursive(path.join(SRC, f), path.join(DIST, f));
   });
   copyRecursive(path.join(SRC, 'assets'), path.join(DIST, 'assets'));
