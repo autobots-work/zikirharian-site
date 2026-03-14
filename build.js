@@ -41,7 +41,9 @@ const CAT_META = {
   'peristiwa':     { icon:'🕌', my:'Peristiwa Khas',    id:'Peristiwa Khusus',    en:'Special Events' },
 };
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// ── Inlined asset content (loaded at build time) ──────────────────────────────
+let APP_JS = '';
+let STYLE_CSS = '';
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
     https.get(url, res => {
@@ -117,7 +119,7 @@ function sharedHead({ title, desc, canonical, ogImage = '/assets/og-default.jpg'
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/style.css" />
+  ${STYLE_CSS ? `<style>${STYLE_CSS}</style>` : '<link rel="stylesheet" href="/assets/style.css" />'}
   ${schema ? `<script type="application/ld+json">${JSON.stringify(schema)}<\/script>` : ''}`;
 }
 
@@ -381,7 +383,7 @@ function buildEntryPage(item, allData) {
     }
   };
   <\/script>
-  <script src="/assets/app.js"></script>
+  <script>${APP_JS}</script>
 </body>
 </html>`;
 }
@@ -437,7 +439,7 @@ function buildListingPage(type, items) {
     </div>
   </main>
   ${FOOTER}
-  <script src="/assets/app.js"></script>
+  <script>${APP_JS}</script>
 </body>
 </html>`;
 }
@@ -495,7 +497,7 @@ function buildCategoryPage(cat, items) {
     </div>
   </main>
   ${FOOTER}
-  <script src="/assets/app.js"></script>
+  <script>${APP_JS}</script>
 </body>
 </html>`;
 }
@@ -523,6 +525,23 @@ ${pages.map(p=>`  <url>\n    <loc>${SITE_URL}${p.loc}</loc>\n    <lastmod>${p.la
 // ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
   console.log('\n🕌 ZikirHarian — Static Build\n' + '─'.repeat(40));
+
+  // Load assets to inline into generated pages
+  const appJsPath  = path.join(SRC, 'assets', 'app.js');
+  const cssPath    = path.join(SRC, 'assets', 'style.css');
+  if (fs.existsSync(appJsPath)) {
+    APP_JS = fs.readFileSync(appJsPath, 'utf8');
+    console.log('✅ app.js loaded for inlining');
+  } else {
+    console.warn('⚠️  assets/app.js not found — pages will reference external file');
+  }
+  if (fs.existsSync(cssPath)) {
+    STYLE_CSS = fs.readFileSync(cssPath, 'utf8');
+    console.log('✅ style.css loaded for inlining');
+  } else {
+    console.warn('⚠️  assets/style.css not found — pages will reference external file');
+  }
+  console.log('');
 
   let raw;
   try {
