@@ -527,7 +527,7 @@ async function main() {
   console.log('\n🕌 ZikirHarian — Static Build\n' + '─'.repeat(40));
 
   // Load assets to inline into generated pages
-  const appJsPath = path.join(SRC, 'app.js');
+  const appJsPath = path.join(SRC, 'assets', 'app.js');
   const cssPath   = path.join(SRC, 'assets', 'style.css');
   if (fs.existsSync(appJsPath)) {
     APP_JS = fs.readFileSync(appJsPath, 'utf8');
