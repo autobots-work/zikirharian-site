@@ -470,6 +470,136 @@ ${pages.map(p=>`  <url>\n    <loc>${SITE_URL}${p.loc}</loc>\n    <lastmod>${p.la
 </urlset>`;
 }
 
+// ── Static Page Shell ─────────────────────────────────────────────────────────
+function staticPage({ title, desc, canonical, breadcrumb, content }) {
+  return `<!DOCTYPE html>
+<html lang="ms" dir="ltr" translate="no">
+<head>
+  <meta charset="UTF-8" /><meta name="google" content="notranslate" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${esc(title)}</title>
+  <meta name="description" content="${esc(desc)}" />
+  <link rel="canonical" href="${SITE_URL}${canonical}" />
+  <meta property="og:title" content="${esc(title)}" />
+  <meta property="og:description" content="${esc(desc)}" />
+  <meta property="og:url" content="${SITE_URL}${canonical}" />
+  <meta property="og:image" content="${SITE_URL}/assets/og-default.jpg" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/assets/site.webmanifest" />
+  <meta name="theme-color" content="#92400e" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1f1e1c" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  ${STYLE_CSS ? `<style>${STYLE_CSS}</style>` : '<link rel="stylesheet" href="/assets/style.css" />'}
+</head>
+<body>
+  ${NAV}
+  <nav class="breadcrumb-bar" aria-label="Laluan navigasi">
+    <div class="page-wrap">
+      <ol class="breadcrumb">
+        <li><a href="/">Utama</a></li><li aria-hidden="true">›</li>
+        <li aria-current="page">${breadcrumb}</li>
+      </ol>
+    </div>
+  </nav>
+  <main class="page-wrap" id="main-content" style="max-width:720px;padding-bottom:60px">
+    <div style="padding-top:40px">${content}</div>
+  </main>
+  ${FOOTER}
+  ${inlineScript()}
+</body>
+</html>`;
+}
+
+function h1(text) {
+  return `<h1 style="font-family:Georgia,serif;font-size:28px;font-weight:700;color:var(--tx1);margin-bottom:8px">${text}</h1>
+    <div style="width:48px;height:3px;background:var(--acc);border-radius:2px;margin-bottom:32px"></div>`;
+}
+function h2(text) {
+  return `<h2 style="font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--tx1);margin:28px 0 10px">${text}</h2>`;
+}
+function p(text) { return `<p style="margin-bottom:16px">${text}</p>`; }
+
+function buildTentang() {
+  return staticPage({
+    title: 'Tentang Kami — ZikirHarian.com',
+    desc:  'ZikirHarian.com menyediakan koleksi zikir, doa dan wirid harian untuk Muslim Malaysia dan Indonesia.',
+    canonical: '/tentang/',
+    breadcrumb: 'Tentang',
+    content: `
+    ${h1('Tentang ZikirHarian')}
+    <div style="font-size:15px;color:var(--tx2);line-height:1.85">
+      ${p('<strong>ZikirHarian.com</strong> adalah platform koleksi zikir, doa dan wirid harian untuk Muslim Malaysia dan Indonesia. Kami menyediakan bacaan yang lengkap — teks Arab, rumi, terjemahan dan fadhilat — dalam satu tempat yang mudah diakses.')}
+      ${h2('Misi Kami')}
+      ${p('Memudahkan umat Islam untuk mengamalkan zikir dan doa harian dengan betul dan istiqamah. Kami percaya bahawa akses kepada ilmu agama yang sahih patut mudah, cepat dan percuma untuk semua orang.')}
+      ${h2('Sumber Kandungan')}
+      ${p('Semua kandungan di ZikirHarian.com bersumberkan al-Quran, hadis-hadis sahih dan kitab-kitab muktamad seperti Hisnul Muslim, Riyadhus Solihin dan sumber ulama yang dipercayai. Setiap entri disertakan sumber rujukan bagi memudahkan pengesahan.')}
+      ${h2('Hubungi Kami')}
+      ${p('Ada cadangan kandungan atau ingin melaporkan kesilapan? Hubungi kami melalui emel di <a href="mailto:hello@zikirharian.com" style="color:var(--acc)">hello@zikirharian.com</a>.')}
+      <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:24px;margin-top:8px;text-align:center">
+        <div style="font-size:28px;margin-bottom:8px">🤲</div>
+        <div style="font-family:Georgia,serif;font-size:16px;font-weight:600;color:var(--tx1);margin-bottom:6px">Doa Kami</div>
+        <p style="font-size:14px;color:var(--tx3);line-height:1.7;margin:0">Semoga laman ini menjadi sebab bertambahnya amal soleh pengguna, dan menjadi sadaqah jariah bagi semua yang membantu menyebarkannya. Amin.</p>
+      </div>
+    </div>`
+  });
+}
+
+function buildPrivasi() {
+  return staticPage({
+    title: 'Dasar Privasi — ZikirHarian.com',
+    desc:  'Dasar privasi ZikirHarian.com. Ketahui bagaimana kami menguruskan maklumat pengguna.',
+    canonical: '/privasi/',
+    breadcrumb: 'Dasar Privasi',
+    content: `
+    ${h1('Dasar Privasi')}
+    <p style="font-size:13px;color:var(--tx3);margin-bottom:24px;margin-top:-20px">Dikemaskini: 14 Mac 2026</p>
+    <div style="font-size:15px;color:var(--tx2);line-height:1.85">
+      ${h2('1. Maklumat Yang Dikumpulkan')}
+      ${p('ZikirHarian.com adalah laman statik. Kami <strong>tidak mengumpulkan</strong> sebarang maklumat peribadi seperti nama, emel atau nombor telefon. Kami tidak memerlukan pendaftaran akaun.')}
+      ${p('Pilihan bahasa dan tema anda disimpan secara tempatan pada peranti anda sahaja menggunakan <em>localStorage</em> dan tidak dihantar ke mana-mana pelayan.')}
+      ${h2('2. Kuki dan Penjejakan')}
+      ${p('Laman ini mungkin menggunakan perkhidmatan pihak ketiga seperti Google Analytics untuk memahami corak penggunaan secara agregat. Data ini tidak boleh dikenal pasti secara peribadi.')}
+      ${p('Jika anda tidak mahu data anda dikumpulkan oleh Google Analytics, anda boleh memasang <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" style="color:var(--acc)">Google Analytics Opt-out Add-on</a>.')}
+      ${h2('3. Pengiklanan')}
+      ${p('Laman ini mungkin memaparkan iklan melalui Google AdSense. Google mungkin menggunakan kuki untuk memaparkan iklan berdasarkan lawatan anda. Anda boleh menyahaktifkan ini melalui <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener" style="color:var(--acc)">Tetapan Iklan Google</a>.')}
+      ${h2('4. Pautan Luar')}
+      ${p('Laman ini mungkin mengandungi pautan ke laman web pihak ketiga. Kami tidak bertanggungjawab ke atas dasar privasi atau kandungan laman-laman tersebut.')}
+      ${h2('5. Hubungi Kami')}
+      ${p('Sekiranya anda mempunyai pertanyaan berkaitan dasar privasi ini, sila hubungi kami di <a href="mailto:hello@zikirharian.com" style="color:var(--acc)">hello@zikirharian.com</a>.')}
+    </div>`
+  });
+}
+
+function buildSyarat() {
+  return staticPage({
+    title: 'Syarat Penggunaan — ZikirHarian.com',
+    desc:  'Syarat dan terma penggunaan laman ZikirHarian.com.',
+    canonical: '/syarat/',
+    breadcrumb: 'Syarat Penggunaan',
+    content: `
+    ${h1('Syarat Penggunaan')}
+    <p style="font-size:13px;color:var(--tx3);margin-bottom:24px;margin-top:-20px">Dikemaskini: 14 Mac 2026</p>
+    <div style="font-size:15px;color:var(--tx2);line-height:1.85">
+      ${h2('1. Penerimaan Syarat')}
+      ${p('Dengan menggunakan laman ZikirHarian.com, anda bersetuju untuk mematuhi syarat-syarat penggunaan ini. Sekiranya anda tidak bersetuju, sila hentikan penggunaan laman ini.')}
+      ${h2('2. Penggunaan Kandungan')}
+      ${p('Kandungan di ZikirHarian.com boleh digunakan untuk tujuan peribadi dan pendidikan. Penggunaan semula secara komersial tanpa kebenaran bertulis adalah dilarang.')}
+      ${p('Anda dialu-alukan untuk berkongsi pautan ke halaman kami. Sila nyatakan sumber apabila menggunakan kandungan daripada laman ini.')}
+      ${h2('3. Ketepatan Maklumat')}
+      ${p('Kami berusaha memastikan semua kandungan bersumberkan rujukan yang sahih. Walau bagaimanapun, kami mengesyorkan agar pengguna merujuk ulama atau pakar agama yang berkelayakan untuk pengesahan lanjut.')}
+      ${h2('4. Had Tanggungjawab')}
+      ${p('ZikirHarian.com disediakan "seadanya" tanpa sebarang jaminan. Kami tidak bertanggungjawab atas sebarang kerugian atau kerosakan yang timbul daripada penggunaan laman ini.')}
+      ${h2('5. Perubahan Syarat')}
+      ${p('Kami berhak mengubah syarat penggunaan ini pada bila-bila masa. Perubahan akan dikuatkuasakan serta-merta selepas disiarkan di laman ini.')}
+      ${h2('6. Hubungi Kami')}
+      ${p('Untuk sebarang pertanyaan, hubungi kami di <a href="mailto:hello@zikirharian.com" style="color:var(--acc)">hello@zikirharian.com</a>.')}
+    </div>`
+  });
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
   console.log('\n🕌 ZikirHarian — Static Build\n' + '─'.repeat(40));
@@ -511,6 +641,14 @@ async function main() {
     if (fs.existsSync(path.join(SRC, f))) copyRecursive(path.join(SRC, f), path.join(DIST, f));
   });
   copyRecursive(path.join(SRC, 'assets'), path.join(DIST, 'assets'));
+  // Copy static pages
+  ['tentang', 'privasi', 'syarat'].forEach(p => {
+    const src = path.join(SRC, p);
+    if (fs.existsSync(src)) {
+      copyRecursive(src, path.join(DIST, p));
+      console.log(`   ✅ /${p}/`);
+    }
+  });
   console.log('📋 Static files copied\n');
 
   let built = 0;
@@ -540,7 +678,13 @@ async function main() {
     console.log('✅ robots.txt');
   }
 
-  const total = built + 2 + cats.length;
+  // Static pages
+  write(path.join(DIST, 'tentang', 'index.html'), buildTentang());
+  write(path.join(DIST, 'privasi', 'index.html'), buildPrivasi());
+  write(path.join(DIST, 'syarat',  'index.html'), buildSyarat());
+  console.log('✅ Static pages: /tentang/ /privasi/ /syarat/');
+
+  const total = built + 2 + cats.length + 3;
   console.log(`\n${'─'.repeat(40)}`);
   console.log(`🎉 Done — ${total} pages built in /dist\n`);
 }
