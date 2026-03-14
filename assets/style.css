@@ -62,7 +62,7 @@
 
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; overflow-x: hidden; }
+html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--tx1);
@@ -71,7 +71,7 @@ body {
   line-height: 1.7;
   transition: background var(--transition), color var(--transition);
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 a { color: var(--acc); text-decoration: none; transition: color var(--transition); }
 a:hover { color: var(--acc2); }
@@ -435,4 +435,35 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   .faq-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
   .arabic-block { padding: 24px 16px; }
+}
+
+/* ── Floating Share Buttons ── */
+.share-float {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 150;
+}
+.share-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,.25);
+  transition: transform .15s, box-shadow .15s;
+  font-size: 22px;
+  line-height: 1;
+}
+.share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.3); }
+.share-btn-wa  { background: #25D366; }
+.share-btn-tg  { background: #229ED9; }
+@media (max-width: 480px) {
+  .share-float { bottom: 16px; right: 14px; }
+  .share-btn   { width: 44px; height: 44px; font-size: 20px; }
 }
