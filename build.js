@@ -527,19 +527,19 @@ async function main() {
   console.log('\n🕌 ZikirHarian — Static Build\n' + '─'.repeat(40));
 
   // Load assets to inline into generated pages
-  const appJsPath  = path.join(SRC, 'assets', 'app.js');
-  const cssPath    = path.join(SRC, 'assets', 'style.css');
+  const appJsPath = path.join(SRC, 'app.js');
+  const cssPath   = path.join(SRC, 'assets', 'style.css');
   if (fs.existsSync(appJsPath)) {
     APP_JS = fs.readFileSync(appJsPath, 'utf8');
     console.log('✅ app.js loaded for inlining');
   } else {
-    console.warn('⚠️  assets/app.js not found — pages will reference external file');
+    console.warn('⚠️  app.js not found in repo root');
   }
   if (fs.existsSync(cssPath)) {
     STYLE_CSS = fs.readFileSync(cssPath, 'utf8');
     console.log('✅ style.css loaded for inlining');
   } else {
-    console.warn('⚠️  assets/style.css not found — pages will reference external file');
+    console.warn('⚠️  assets/style.css not found');
   }
   console.log('');
 
