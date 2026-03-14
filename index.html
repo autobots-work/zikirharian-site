@@ -160,7 +160,7 @@
        RESET & BASE
     ═══════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; overflow-x: hidden; }
+    html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
       color: var(--tx1);
@@ -169,7 +169,7 @@
       line-height: 1.7;
       transition: background var(--transition), color var(--transition);
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow-x: clip;
     }
     a { color: var(--acc); text-decoration: none; transition: color var(--transition); }
     a:hover { color: var(--acc2); }
