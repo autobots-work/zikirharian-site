@@ -177,8 +177,8 @@ const FOOTER = `
 // ── Inline Script ─────────────────────────────────────────────────────────────
 function inlineScript(extraJS='') {
   return `<script>
-${APP_JS}
 ${extraJS}
+${APP_JS}
 </script>`;
 }
 
